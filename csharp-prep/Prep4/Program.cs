@@ -7,9 +7,8 @@ class Program
         //variables
         List<int> numbers = new List<int>();
         int userNumber = 1;
-        int runningTotal = 0;
+        float runningTotal = 0;
         int count = 0;
-        float average = 0;
         int largest = -1;
         int smallestPositive = 999;
 
@@ -22,7 +21,7 @@ class Program
             if (userNumber != 0)
                 numbers.Add(userNumber);
         }
-        
+        Console.Write(numbers);
         //for each number in the list: 
         //count (for average)
         //add (for running total)
@@ -30,7 +29,7 @@ class Program
         for (int i = 0; i < numbers.Count; i++)
         {
             count += 1;
-            int number = i;
+            int number = numbers[i];
             runningTotal += number;
             if (number > largest)
             {
@@ -44,7 +43,7 @@ class Program
         }
     
         //compute average & print running total, average & largest number
-        average = runningTotal / count;
+        float average = runningTotal / count;
         Console.WriteLine($"The total of the numbers is {runningTotal}.");
         Console.WriteLine($"The average of the numbers is {average}.");
         Console.WriteLine($"The largest number is {largest}.");
