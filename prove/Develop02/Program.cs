@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Xml.Serialization;
 
 public class Program
@@ -7,6 +8,8 @@ public class Program
     static void Main(string[] args)
     {
         string choice = "";
+        Journal myJournal = new Journal();
+
         do
         { 
             Console.WriteLine("Welcome to your journal");
@@ -23,38 +26,39 @@ public class Program
             if (choice == "1")
             {            
                 DateTime theCurrentTime = DateTime.Now;
-                string dateText = theCurrentTime.ToShortDateString();
+                string _dateText = theCurrentTime.ToShortDateString();
                 
                 PromptGenerator myPrompt = new PromptGenerator();
-                string prompt = myPrompt.GetRandomPrompt();
+                string _prompt = myPrompt.GetRandomPrompt();
 
-                Console.WriteLine(prompt);
-                string response = Console.ReadLine();
+                Console.WriteLine(_prompt);
+                string _response = Console.ReadLine();
+
+                Console.WriteLine("Enter location of entry");
+                string _userLocation = Console.ReadLine();                
                 
                 Entry entry = new Entry();
-                entry._entryDate = dateText;
-                entry._promptText = prompt;
-                entry._entryText = response;
+                entry._entryDate = _dateText;
+                entry._location = _userLocation;
+                entry._promptText = _prompt;
+                entry._entryText = _response;
 
-                Journal myJournal = new Journal();
                 myJournal.AddEntry(entry);
             }
 
             else if (choice == "2")
             {
-                Journal myJournal = new Journal();
                 myJournal.DisplayAll();
             }
 
             else if (choice == "3")
             {
-                Journal myJournal = new Journal();
+                myJournal = new Journal();
                 myJournal.LoadFile("Journal.txt");
             }
 
             else if (choice == "4")
             {
-                Journal myJournal = new Journal();
                 myJournal.SaveFile("Journal.txt");
             }
 
