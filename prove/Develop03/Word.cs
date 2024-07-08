@@ -2,19 +2,47 @@ using System.Runtime.CompilerServices;
 
 public class Word
 {
-    public Word(string _text)
-    {
-        private string _text;
-        private bool _isHidden;
-        public string _word; 
-    }
-    Public Word(string text)
-    {
+    private string _text;
+    private bool _isHidden;
 
+    public Word(string text)
+    {
+        _text = text;
+        _isHidden = false;
     }
 
-    IsHidden() //getter function returns boolean
+    public void Hide()
+    //Hides word
+    {
+        _isHidden = true;
+    }
 
-    GetDisplayText()
+    public void Show()
+    //Shows word
+    {
+        _isHidden = false;
+    }
 
+    public bool IsHidden()
+    {
+        return _isHidden;
+    }
+
+    public string GetDisplayText()
+    //Displays word or blank if word is hidden
+    {
+        if (_isHidden)
+        {
+            string text = "";
+            foreach (char l in _text)
+            {
+                text+= "_";
+            }
+            return text;
+        }
+        else 
+        {
+            return _text;
+        }
+    }
 }
