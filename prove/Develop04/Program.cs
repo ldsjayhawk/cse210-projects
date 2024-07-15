@@ -5,74 +5,65 @@ class Program
 {
     static void Main(string[] args)
     {
-static void Main(string[] args)
-    {
+
         string choice = "";
-        Journal myJournal = new Journal();
+        // Journal myJournal = new Journal();
 
         do
-        { 
-            Console.WriteLine("Welcome to your journal");
-            Console.WriteLine("Please select an option below:");
-            Console.WriteLine("1. Write");
-            Console.WriteLine("2. Display");
-            Console.WriteLine("3. Load");
-            Console.WriteLine("4. Save");
-            Console.WriteLine("5. Quit");
+        {
+            Console.Clear();
+            Console.WriteLine("Menu options:");
+            Console.WriteLine("1. Breathing Activity");
+            Console.WriteLine("2. Reflecting Activity");
+            Console.WriteLine("3. Listing Activity");
+            Console.WriteLine("4. Quit");
 
-            Console.WriteLine("What would you like to do?");
+            Console.WriteLine("Please select a choice from the menu: ");
             choice = Console.ReadLine();
 
             if (choice == "1")
-            {            
-                DateTime theCurrentTime = DateTime.Now;
-                string _dateText = theCurrentTime.ToShortDateString();
-                
-                PromptGenerator myPrompt = new PromptGenerator();
-                string _prompt = myPrompt.GetRandomPrompt();
+            {
+                string name = "Breathing";
+                string description = "This activity will help you relax by walking you through breathing in and out slowly.  Clear your mind and focus on your breathing.";
+                int duration = 0;
 
-                Console.WriteLine(_prompt);
-                string _response = Console.ReadLine();
-
-                Console.WriteLine("Enter location of entry");
-                string _userLocation = Console.ReadLine();                
-                
-                Entry entry = new Entry();
-                entry._entryDate = _dateText;
-                entry._location = _userLocation;
-                entry._promptText = _prompt;
-                entry._entryText = _response;
-
-                myJournal.AddEntry(entry);
+                BreathingActivity breathing = new BreathingActivity(name, description, duration);
+                breathing.Run();
             }
 
             else if (choice == "2")
             {
-                myJournal.DisplayAll();
+                string name = "Reflection";
+                string description = """
+                    This activity will help you reflect on times in your life when you have shown strength and resilience.
+                    This will help you recognize the power you have and how you can use it in the other aspects of your life.
+                    """;
+                int duration = 0;
+
+                ReflectionActivity reflection = new ReflectionActivity(name, description, duration);
+                reflection.Run();
             }
 
             else if (choice == "3")
             {
-                myJournal = new Journal();
-                myJournal.LoadFile("Journal.txt");
+                string name = "Listing";
+                string description = "This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area.";
+                int seconds = 0;
+
+                ListingActivity listing = new ListingActivity(name, description, seconds);
+                listing.Run();
             }
 
             else if (choice == "4")
-            {
-                myJournal.SaveFile("Journal.txt");
-            }
-
-            else if (choice == "5")
             {
                 Console.WriteLine("Thank you.  Goodbye!");
             }
 
             else
             {
-                Console.WriteLine("Please select an option 1-5.");
+                Console.WriteLine("Please select an option between 1 & 4.");
             }
         }
-        while (choice != "5");
+        while (choice != "4");
     }
-}
 }
