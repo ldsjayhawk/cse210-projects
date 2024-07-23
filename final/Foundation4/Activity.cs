@@ -3,27 +3,27 @@ using System.Runtime.InteropServices;
 
 public class Activity
 {
+    protected string _activity;
     protected string _date;
     protected int _minutes;
     protected double _speed;
     protected double _distance;
 
-    public Activity(string date, int minutes)
+    public Activity(string activity, string date, int minutes)
     {
+        _activity = activity;
         _date = date;
         _minutes = minutes;
     }
 
     public virtual double CalculateDistance()
     {
-        double distance = _speed * _minutes;
-        return distance;
+        return _distance;
     }
 
     public virtual double CalculateSpeed()
     {
-        double speed = (_distance / _minutes) * 60;
-        return speed;
+        return _speed;
     }
 
     public virtual double CalculatePace()
@@ -35,6 +35,6 @@ public class Activity
 
     public void DisplayActivity()
     {
-        Console.WriteLine($"{_date} Running (30 min)- Distance {CalculateDistance()} miles, Speed {CalculateSpeed()} mph, Pace: {CalculatePace()} min per mile");
+        Console.WriteLine($"{_date} {_activity} ({_minutes} min)- Distance {CalculateDistance()} miles, Speed {CalculateSpeed()} mph, Pace: {CalculatePace()} min per mile");
     }
 }
