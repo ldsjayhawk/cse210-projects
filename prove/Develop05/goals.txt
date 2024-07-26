@@ -1,2 +1,0 @@
-Score|{_score}
-temple|temple|100|False

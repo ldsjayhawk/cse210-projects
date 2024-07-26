@@ -9,7 +9,7 @@ public class EternalGoal : Goal
 
     public override int RecordEvent()
     {
-        Console.WriteLine("Good job!");
+        Console.WriteLine("Good job!  You earned {_points}!");
         return _points;
     }
 

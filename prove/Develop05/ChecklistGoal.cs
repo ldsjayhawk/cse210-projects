@@ -34,12 +34,12 @@ public class ChecklistGoal : Goal
         if (_current == _target)
         {
             _isComplete = true;
-            Console.WriteLine($"Great Job completing your goal");
+            Console.WriteLine($"Great Job completing your goal.  You earned {_points}");
             return _points + _bonus;
         }
         else
         {
-            Console.WriteLine("Good job completing a target")
+            Console.WriteLine("Good job completing a target.  You earned {_points}");
             return _points;
         }
     }
@@ -57,7 +57,6 @@ public class ChecklistGoal : Goal
     public override string GetStringRepresentation()
     {
         return base.GetStringRepresentation() + $"|{_isComplete}|{_current}|{_target}|{_bonus}";
-
     }
 
 }

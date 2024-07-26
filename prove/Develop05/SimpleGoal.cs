@@ -19,7 +19,7 @@ public class SimpleGoal : Goal
     public override int RecordEvent()
     {
         _isComplete = true;
-        Console.WriteLine($"Great Job completing your goal");
+        Console.WriteLine($"Great Job completing your goal.  You earned {_points}");
         return _points;
     }
 

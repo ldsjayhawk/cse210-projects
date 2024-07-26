@@ -17,7 +17,7 @@ public class GoalManager
     {
         points = 0;
         _score = 0;
-        file = "goals.txt";
+        file = "";
     }
 
 
@@ -26,7 +26,10 @@ public class GoalManager
         string choice = "";
         Console.Clear();
         do
-        {
+        {   Console.WriteLine($"You currently have {_score} points.");
+            Console.WriteLine($"You are a {GameLevel()}");
+            Console.WriteLine();
+
             Console.WriteLine("Menu options:");
             Console.WriteLine("1. Create New Goal");
             Console.WriteLine("2. List Goals");
@@ -56,8 +59,8 @@ public class GoalManager
 
             else if (choice == "4")
             {
-                Console.WriteLine("Fix this");
-                // LoadGoals();
+                // Console.WriteLine("Fix this");
+                LoadGoals();
             }
 
             else if (choice == "5")
@@ -68,12 +71,14 @@ public class GoalManager
             else if (choice == "6")
             {
                 Console.WriteLine("Thank you.  Goodbye!");
+                break;
             }
             else
                 Console.WriteLine("Please select option 1-6.");
-        Console.WriteLine("Press enter to return to menu.");
-        string x = Console.ReadLine();
-        Console.Clear();
+
+            Console.WriteLine("Press enter to return to menu.");
+            string x = Console.ReadLine();
+            Console.Clear();
         }
         while (choice != "6");
     }
@@ -86,13 +91,13 @@ public class GoalManager
         Console.WriteLine("3. Checklist Goals");
         Console.Write("Which type of goal would you like to create? ");
         string goalChoice = Console.ReadLine();
+        Console.WriteLine();
 
-
-        Console.WriteLine($"What is the name of your goal? ");
+        Console.Write($"What is the name of your goal? ");
         string name = Console.ReadLine();
-        Console.WriteLine($"Please provide a short description of your goal: ");
+        Console.Write($"Please provide a short description of your goal: ");
         string description = Console.ReadLine();
-        Console.WriteLine($"What is the amount of points associated with this goal? ");
+        Console.Write($"What is the amount of points associated with this goal? ");
         string pointTotal = Console.ReadLine();
         points = int.Parse(pointTotal);
 
@@ -118,6 +123,8 @@ public class GoalManager
             target = int.Parse(targetstr);
 
             Console.WriteLine("Please enter the bonus value: ");
+            string bonusStr = Console.ReadLine();
+            bonus = int.Parse(bonusStr);
             ChecklistGoal checklist = new ChecklistGoal(name, description, points, target, bonus);
             _goals.Add(checklist);
         }
@@ -144,43 +151,84 @@ public class GoalManager
         Console.Write($"Select which goal you would like to record: ");
         string recordGoal = Console.ReadLine();
         int choice = int.Parse(recordGoal);
+        choice -= 1;
 
-        Console.WriteLine(choice);
-        if (_goals[choice].IsComplete() == true)
-            Console.WriteLine("Goal has already been completed.");
+        if (choice < _goals.Count())
+        {
+            if (_goals[choice].IsComplete() == true)
+                Console.WriteLine("Goal has already been completed.");
+            else
+            {
+                _score += _goals[choice].RecordEvent();
+                Console.Clear();
+                ListGoals();
+            }
+        }
         else
         {
-            _score += _goals[choice].RecordEvent();
-            ListGoals();
+            Console.WriteLine($"Please select and option 1 - {_goals.Count}");
         }
     }
 
     public void SaveGoals()
     {
+        Console.Write("What is the filename for the goals file? ");
+        file = Console.ReadLine();
+
         using (StreamWriter sw = new StreamWriter(file))
         {
-            sw.WriteLine("Score|{_score}");
+            sw.WriteLine("Score|" + $"{_score}");
             foreach (Goal goal in _goals)
                 sw.WriteLine(goal.GetStringRepresentation());
         }
     }
 
-    // public void LoadGoals()
-    // {
-    //     _goals.Clear();
-    //     string[] lines = File.ReadAllLines(file);
-    //     foreach (string line in lines)
-    //     {
-    //         string[] parts = line.Split("|");
+    public void LoadGoals()
+    {
+        Console.Write("What is the filename for the goals file? ");
+        file = Console.ReadLine();
+        _goals.Clear();
+        string[] lines = File.ReadAllLines(file);
+        foreach (string line in lines)
+        {
+            string[] parts = line.Split("|");
 
-    //         SimpleGoal simple = new SimpleGoal(name, description, points, isComplete);
-    //         _goals.Add(simple);
+            if (parts[0] == "Score")
+                _score = int.Parse(parts[1]);
 
-    //         EternalGoal eternal = new EternalGoal(name, description, points);
-    //         _goals.Add(eternal);
+            else if (parts[0] == "SimpleGoal")
+            {
+                SimpleGoal simple = new SimpleGoal(parts[1], parts[2], int.Parse(parts[3]), bool.Parse(parts[4]));
+                _goals.Add(simple);
+            }
 
-    //         ChecklistGoal checklist = new ChecklistGoal(name, description, points, IsComplete, score, target, bonus);
-    //         _goals.Add(checklist);
-    //     }
-    //  }
+            else if (parts[0] == "EternalGoal")
+            {
+                EternalGoal simple = new EternalGoal(parts[1], parts[2], int.Parse(parts[3]));
+                _goals.Add(simple);
+            }
+
+            else if (parts[0] == "ChecklistGoal")
+            {
+                ChecklistGoal simple = new ChecklistGoal(parts[1], parts[2], int.Parse(parts[3]), bool.Parse(parts[4]), int.Parse(parts[5]), int.Parse(parts[6]), int.Parse(parts[7]));
+                _goals.Add(simple);
+            }
+        }
+    }
+    public string GameLevel()
+    {
+        string level = "";
+
+        if (_score >= 1000)
+            level = "Goal Guru";
+
+        else if (_score >= 500)
+        {
+            level = "Goal Pro";
+        }
+        else
+            level = "Goal Rookie";
+
+        return level;
+    }
 }

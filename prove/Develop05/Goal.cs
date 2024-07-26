@@ -29,12 +29,12 @@ public abstract class Goal
         else
             tick = " ";
             
-        return $"[{tick}] {_goalName} {_description}";
+        return $"[{tick}] {_goalName} ({_description})";
     }
 
     public virtual string GetStringRepresentation()
     {
-        return $"{_goalName}|{_description}|{_points}";
+        return GetType() + "|" + $"{_goalName}|{_description}|{_points}";
     }
 }
 
